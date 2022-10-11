@@ -319,11 +319,7 @@ fn test_extra_fields() {
     test_decode(&bytes, &E2::Foo);
 
     let bytes = encode(&E2::Foo);
-    test_decode(&bytes, &Some(E2::Foo));
-    check_error(
-        || test_decode(&bytes, &E1::Foo),
-        "Variant field 3_303_867 not found",
-    );
+    test_decode(&bytes, &E1::Foo);
 }
 
 #[test]
@@ -509,7 +505,7 @@ fn test_variant() {
 
     check_error(
         || test_decode(&hex("4449444c016b02b4d3c9017fe6fdd5017f010000"), &Unit::Bar),
-        "Variant field 3_303_860 not found",
+        "Unknown variant field 3_303_860",
     );
 
     let res: Result<String, String> = Ok("good".to_string());

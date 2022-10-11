@@ -71,15 +71,17 @@ impl<'de> IDLDeserialize<'de> {
             expected_type.clone()
         };
         self.de.wire_type = ty.clone();
-        self.de
-            .check_subtype()
-            .with_context(|| self.de.dump_state())
-            .with_context(|| {
-                format!(
-                    "Fail to decode argument {} from {} to {}",
-                    ind, ty, expected_type
-                )
-            })?;
+        if !matches!(self.de.expect_type, Type::Variant(_)) {
+            self.de
+                .check_subtype()
+                .with_context(|| self.de.dump_state())
+                .with_context(|| {
+                    format!(
+                        "Fail to decode argument {} from {} to {}",
+                        ind, ty, expected_type
+                    )
+                })?;
+        }
 
         let v = T::deserialize(&mut self.de)
             .with_context(|| self.de.dump_state())
