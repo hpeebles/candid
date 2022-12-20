@@ -51,9 +51,9 @@ impl<'de> IDLDeserialize<'de> {
     {
         let expected_type = self.de.table.trace_type(&expected_type)?;
         if self.de.types.is_empty() {
-            if matches!(expected_type, Type::Opt(_) | Type::Reserved) {
+            if matches!(expected_type, Type::Opt(_) | Type::Reserved | Type::Null) {
                 self.de.expect_type = expected_type;
-                self.de.wire_type = Type::Reserved;
+                self.de.wire_type = Type::Null;
                 return T::deserialize(&mut self.de);
             } else {
                 return Err(Error::msg(format!(
