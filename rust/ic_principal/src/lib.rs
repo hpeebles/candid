@@ -96,6 +96,8 @@ pub enum PrincipalError {
 /// # }
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "ts-rs", derive(ts_rs::TS))]
+#[cfg_attr(feature = "ts-rs", ts(as = "String"))]
 pub struct Principal {
     /// Length.
     len: u8,
